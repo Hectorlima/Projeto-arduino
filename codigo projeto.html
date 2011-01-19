@@ -1,0 +1,75 @@
+<pre>
+<span style="color: #7E7E7E;">//&nbsp;Inclui&nbsp;a&nbsp;biblioteca&nbsp;LiquidCrystal.h</span>
+#include&nbsp;&lt;<span style="color: #CC6600;">LiquidCrystal</span>.h&gt;
+<span style="color: #7E7E7E;">//&nbsp;Define&nbsp;que&nbsp;o&nbsp;pino&nbsp;6&nbsp;responde&nbsp;como&nbsp;switch_pin&nbsp;</span>
+#define&nbsp;switch_pin&nbsp;6
+
+<span style="color: #7E7E7E;">//&nbsp;Inicializa&nbsp;a&nbsp;biblioteca&nbsp;com&nbsp;os&nbsp;pinos&nbsp;ligados&nbsp;no&nbsp;Arduino</span>
+<span style="color: #CC6600;">LiquidCrystal</span> lcd(12, 11, 5, 4, 3, 2);
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>setup</b></span>(){
+&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(switch_pin, <span style="color: #006699;">INPUT</span>);  
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Configura o n&#250;mero de linhas e colunas no Arduino</span>
+&nbsp;&nbsp;lcd.<span style="color: #CC6600;">begin</span>(16, 2);
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Inicializa a comunica&#231;&#227;o serial</span>
+&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">begin</span>(9600);
+}
+
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>loop</b></span>()
+{
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Quando chegar algum caracter na porta serial</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">available</span>()) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Espera um pouco para a mensagem chegar</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Limpa o LCD</span>
+&nbsp;&nbsp;&nbsp;&nbsp;lcd.<span style="color: #CC6600;">clear</span>();
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// L&#234; os caract&#233;res que chegam na comunica&#231;&#227;o serial</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> (<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">available</span>() &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Exibe os caracteres no LCD</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lcd.<span style="color: #CC6600;">write</span>(<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">read</span>());
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Vai realizar a fun&#231;&#227;o 25 vezes</span>
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> positionCounter = 0; positionCounter &lt; 25; positionCounter++) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Move uma posi&#231;&#227;o do lcd para esquerda</span>
+&nbsp;&nbsp;&nbsp;&nbsp;lcd.<span style="color: #CC6600;">scrollDisplayLeft</span>(); 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Aguarda um momento</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(150);}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// Vai realizar a fun&#231;&#227;o 25 vezes</span>
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> positionCounter = 0; positionCounter &lt; 25; positionCounter++) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Move uma posi&#231;&#227;o do lcd para esquerda</span>
+&nbsp;&nbsp;&nbsp;&nbsp;lcd.<span style="color: #CC6600;">scrollDisplayLeft</span>(); 
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Aguarda um momento</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(150);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// cria uma vari&#225;vel do tipo inteira</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> chave = 0;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">// chave vai receber o valor da leitura do pino 6</span>
+&nbsp;&nbsp;&nbsp;chave&nbsp;=&nbsp;<span style="color: #CC6600;">digitalRead</span>(switch_pin);
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Se chave, que &#233; o pino 6, estiver conduzindo 5v(HIGH)</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (chave == <span style="color: #006699;">HIGH</span>) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Enviar&#225; via serial, para o PC, a informa&#231;&#227;o LIGADO</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Ligado"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Espera um tempo de 1 segundo</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Sen&#227;o   </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span style="color: #CC6600;">else</span> {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Enviar&#225; via serial, para o PC, a informa&#231;&#227;o DESLIGADO</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;"><b>Serial</b></span>.<span style="color: #CC6600;">println</span>(<span style="color: #006699;">"Desligado"</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">// Espera um tempo de 1 segundo</span>
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;}
+&nbsp;&nbsp;
+
+
+&nbsp;&nbsp;}
+
+</pre>
